@@ -37,21 +37,13 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <FrameLayout
+                <ImageView
                     android:id="@+id/frame_logo"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="#E8DDF8"
-                    android:contentDescription="Restaurant logo">
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:layout_gravity="center"
-                        android:contentDescription="Restaurant icon"
-                        android:src="@android:drawable/ic_menu_myplaces"
-                        app:tint="#7044A0" />
-                </FrameLayout>
+                    android:contentDescription="Precious Nkomose restaurant logo"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/precious_nkomose_logo" />
 
                 <LinearLayout
                     android:layout_width="0dp"
