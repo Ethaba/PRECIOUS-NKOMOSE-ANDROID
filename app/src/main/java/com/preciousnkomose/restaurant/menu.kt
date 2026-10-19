@@ -53,12 +53,8 @@ class menu : AppCompatActivity() {
             startActivity(Intent(this, PickTableActivity::class.java))
         }
 
-        findViewById<View?>(R.id.nav_catering)?.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Catering will be available in a future update.",
-                Toast.LENGTH_SHORT
-            ).show()
+        findViewById<android.view.View>(R.id.nav_catering)?.setOnClickListener {
+            startActivity(Intent(this, CateringRequestActivity::class.java))
         }
 
         findViewById<View?>(R.id.nav_profile)?.setOnClickListener {
