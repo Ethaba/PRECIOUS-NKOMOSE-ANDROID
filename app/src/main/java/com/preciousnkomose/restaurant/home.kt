@@ -16,6 +16,16 @@ class home : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_home)
 
+
+        findViewById<android.view.View>(R.id.card_home_reviews).setOnClickListener {
+            startActivity(Intent(this, ReviewsActivity::class.java))
+        }
+
+        findViewById<android.view.View>(R.id.card_home_contact).setOnClickListener {
+            startActivity(Intent(this, ContactActivity::class.java))
+        }
+
+
         val mainView = findViewById<android.view.View>(R.id.main)
 
         ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
@@ -49,12 +59,8 @@ class home : AppCompatActivity() {
             startActivity(Intent(this, PickTableActivity::class.java))
         }
 
-        findViewById<android.view.View?>(R.id.nav_catering)?.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Catering will be available in a future update.",
-                Toast.LENGTH_SHORT
-            ).show()
+        findViewById<android.view.View>(R.id.nav_catering)?.setOnClickListener {
+            startActivity(Intent(this, CateringRequestActivity::class.java))
         }
 
         findViewById<android.view.View?>(R.id.nav_profile)?.setOnClickListener {
