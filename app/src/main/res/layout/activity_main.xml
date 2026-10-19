@@ -32,9 +32,9 @@
                 android:layout_height="110dp"
                 android:contentDescription="Precious Nkomose restaurant logo"
                 android:scaleType="fitCenter"
-
-                android:background="#E9DDF8"
-                android:padding="8dp" />
+                android:src="@drawable/precious_nkomose_logo"
+                android:background="@android:color/transparent"
+                android:padding="0dp" />
 
             <TextView
                 android:layout_width="match_parent"
