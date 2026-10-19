@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F9FA"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Catering Request"
+            android:textColor="#3D2B56"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="24dp"
+            android:text="Let us cater your special event"
+            android:textColor="#6C757D"
+            android:textSize="14sp" />
+
+        <!-- Contact Name -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Full Name"
+            android:textColor="#3D2B56"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCateringName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:hint="Enter full name"
+            android:inputType="textPersonName"
+            android:padding="12dp" />
+
+        <!-- Phone / Email -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email Address"
+            android:textColor="#3D2B56"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCateringEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:hint="Enter email address"
+            android:inputType="textEmailAddress"
+            android:padding="12dp" />
+
+        <!-- Event Type -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Type"
+            android:textColor="#3D2B56"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCateringEventType"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:hint="e.g. Wedding, Birthday, Corporate"
+            android:inputType="text"
+            android:padding="12dp" />
+
+        <!-- Estimated Guests -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimated Guests"
+            android:textColor="#3D2B56"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCateringGuestCount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="16dp"
+            android:background="@android:drawable/editbox_background"
+            android:hint="e.g. 50"
+            android:inputType="number"
+            android:padding="12dp" />
+
+        <!-- Event Details / Budget -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Details &amp; Budget"
+            android:textColor="#3D2B56"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etCateringDetails"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="24dp"
+            android:background="@android:drawable/editbox_background"
+            android:gravity="top|start"
+            android:hint="Describe menu preferences or special requirements..."
+            android:inputType="textMultiLine"
+            android:padding="12dp" />
+
+        <Button
+            android:id="@+id/btnSubmitCatering"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:backgroundTint="#3D2B56"
+            android:text="Submit Catering Request"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+</ScrollView>
