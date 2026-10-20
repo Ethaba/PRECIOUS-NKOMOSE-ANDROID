@@ -57,13 +57,11 @@ class menu : AppCompatActivity() {
             startActivity(Intent(this, CateringRequestActivity::class.java))
         }
 
-        findViewById<View?>(R.id.nav_profile)?.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Profile functionality will be added later.",
-                Toast.LENGTH_SHORT
-            ).show()
+
+        findViewById<android.view.View>(R.id.nav_profile)?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
+
     }
 
     private fun setupMenuCategories() {
