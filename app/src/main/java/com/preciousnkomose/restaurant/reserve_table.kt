@@ -1,14 +1,22 @@
-
 package com.preciousnkomose.restaurant
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.button.MaterialButton
+import com.preciousnkomose.restaurant.api.ApiClient
+import com.preciousnkomose.restaurant.api.ReservationRequest
+import com.preciousnkomose.restaurant.api.ReservationResponse
+import com.preciousnkomose.restaurant.api.UserSession
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -23,10 +31,13 @@ class reserve_table : AppCompatActivity() {
     private var selectedDate = ""
     private var selectedTime = ""
     private var guestCount = 2
+    private lateinit var session: UserSession
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_reserve_table)
+
+        session = UserSession(this)
 
         readSelectedTable()
         displaySelectedTable()
@@ -103,7 +114,7 @@ class reserve_table : AppCompatActivity() {
                 { _, hourOfDay, minute ->
                     selectedTime = String.format(
                         Locale.getDefault(),
-                        "%02d:%02d",
+                        "%02d:%02d:00",
                         hourOfDay,
                         minute
                     )
@@ -201,20 +212,62 @@ class reserve_table : AppCompatActivity() {
         }
 
         val specialNotes =
-            findViewById<android.widget.EditText>(R.id.edit_special_notes)
+            findViewById<EditText>(R.id.edit_special_notes)
                 .text.toString().trim()
 
-        // The API, authentication and booking database are not connected yet.
-        // This confirms validation only; it does not create a real reservation.
-        val message = buildString {
-            append("Details validated for $selectedTableName. ")
-            append("$guestCount guest(s), $selectedDate at $selectedTime.")
-            if (specialNotes.isNotBlank()) {
-                append(" Your special notes have been entered.")
-            }
-            append(" Booking service is not connected yet.")
-        }
+        val currentUser = session.getUser()
 
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+        val confirmBtn = findViewById<MaterialButton>(R.id.btn_confirm_booking)
+        confirmBtn.isEnabled = false
+        confirmBtn.text = "Submitting..."
+
+        val request = ReservationRequest(
+            customerId = currentUser.id,
+            customerName = currentUser.name,
+            customerEmail = currentUser.email,
+            preferredSection = if (entireVenueSelected) "whole-venue" else "Table $selectedTableId",
+            sectionLabel = selectedTableName,
+            capacity = selectedTableCapacity,
+            date = selectedDate,
+            time = selectedTime,
+            guests = guestCount,
+            notes = specialNotes
+        )
+
+        ApiClient.apiService.createReservation(request)
+            .enqueue(object : Callback<ReservationResponse> {
+                override fun onResponse(
+                    call: Call<ReservationResponse>,
+                    response: Response<ReservationResponse>
+                ) {
+                    confirmBtn.isEnabled = true
+                    confirmBtn.text = "Confirm Booking"
+
+                    val body = response.body()
+                    if (response.isSuccessful && body?.success == true) {
+                        Toast.makeText(
+                            this@reserve_table,
+                            "Reservation confirmed and saved to MySQL!",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                        startActivity(Intent(this@reserve_table, home::class.java))
+                        finish()
+                    } else {
+                        val errorMsg = body?.message ?: "Failed to book table. Please try again."
+                        Toast.makeText(this@reserve_table, errorMsg, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ReservationResponse>, t: Throwable) {
+                    confirmBtn.isEnabled = true
+                    confirmBtn.text = "Confirm Booking"
+                    Toast.makeText(
+                        this@reserve_table,
+                        "Connection failed: ${t.localizedMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            })
     }
 }

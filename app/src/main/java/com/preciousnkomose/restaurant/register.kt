@@ -7,6 +7,12 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.preciousnkomose.restaurant.api.ApiClient
+import com.preciousnkomose.restaurant.api.RegisterRequest
+import com.preciousnkomose.restaurant.api.RegisterResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -102,10 +108,48 @@ class RegisterActivity : AppCompatActivity() {
             return
         }
 
-        Toast.makeText(
-            this,
-            "Details validated. Account creation is not connected yet.",
-            Toast.LENGTH_LONG
-        ).show()
+        registerButton.isEnabled = false
+        registerButton.text = "Registering..."
+
+        val request = RegisterRequest(
+            name = fullName,
+            email = email,
+            phone = phone,
+            password = password
+        )
+
+        ApiClient.apiService.register(request).enqueue(object : Callback<RegisterResponse> {
+            override fun onResponse(
+                call: Call<RegisterResponse>,
+                response: Response<RegisterResponse>
+            ) {
+                registerButton.isEnabled = true
+                registerButton.text = "Register"
+
+                val body = response.body()
+                if (response.isSuccessful && body?.success == true) {
+                    Toast.makeText(
+                        this@RegisterActivity,
+                        body.message,
+                        Toast.LENGTH_LONG
+                    ).show()
+
+                    finish()
+                } else {
+                    val errorMsg = body?.message ?: "Registration failed. Please try again."
+                    Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                registerButton.isEnabled = true
+                registerButton.text = "Register"
+                Toast.makeText(
+                    this@RegisterActivity,
+                    "Connection failed: ${t.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 }

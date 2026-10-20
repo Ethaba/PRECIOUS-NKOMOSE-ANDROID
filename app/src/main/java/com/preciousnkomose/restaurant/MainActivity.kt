@@ -1,5 +1,6 @@
 package com.preciousnkomose.restaurant
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Patterns
 import android.widget.Button
@@ -7,7 +8,13 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
+import com.preciousnkomose.restaurant.api.ApiClient
+import com.preciousnkomose.restaurant.api.LoginRequest
+import com.preciousnkomose.restaurant.api.LoginResponse
+import com.preciousnkomose.restaurant.api.UserSession
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,10 +23,19 @@ class MainActivity : AppCompatActivity() {
     private lateinit var loginButton: Button
     private lateinit var registerText: TextView
     private lateinit var forgotPasswordText: TextView
+    private lateinit var session: UserSession
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        session = UserSession(this)
+
+        if (session.isLoggedIn()) {
+            startActivity(Intent(this, home::class.java))
+            finish()
+            return
+        }
 
         emailInput = findViewById(R.id.emailInput)
         passwordInput = findViewById(R.id.passwordInput)
@@ -38,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         forgotPasswordText.setOnClickListener {
             Toast.makeText(
                 this,
-                "Password recovery will be implemented with authentication.",
+                "Please contact support or use your registered email to reset password.",
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -66,10 +82,44 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        Toast.makeText(
-            this,
-            "Form validated. Authentication is not connected yet.",
-            Toast.LENGTH_LONG
-        ).show()
+        loginButton.isEnabled = false
+        loginButton.text = "Logging in..."
+
+        val request = LoginRequest(email = email, password = password)
+        ApiClient.apiService.login(request).enqueue(object : Callback<LoginResponse> {
+            override fun onResponse(
+                call: Call<LoginResponse>,
+                response: Response<LoginResponse>
+            ) {
+                loginButton.isEnabled = true
+                loginButton.text = "Login"
+
+                val body = response.body()
+                if (response.isSuccessful && body?.success == true && body.user != null) {
+                    session.saveUser(body.user)
+                    Toast.makeText(
+                        this@MainActivity,
+                        "Welcome back, ${body.user.name}!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+                    startActivity(Intent(this@MainActivity, home::class.java))
+                    finish()
+                } else {
+                    val errorMsg = body?.message ?: "Login failed. Please check your credentials."
+                    Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_LONG).show()
+                }
+            }
+
+            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                loginButton.isEnabled = true
+                loginButton.text = "Login"
+                Toast.makeText(
+                    this@MainActivity,
+                    "Connection failed: ${t.localizedMessage}",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
     }
 }
