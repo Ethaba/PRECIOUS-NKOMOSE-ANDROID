@@ -16,7 +16,6 @@ class CateringRequestActivity : AppCompatActivity() {
         val etEmail = findViewById<EditText>(R.id.etCateringEmail)
         val etEventType = findViewById<EditText>(R.id.etCateringEventType)
         val etGuestCount = findViewById<EditText>(R.id.etCateringGuestCount)
-        val etEventDetails = findViewById<EditText>(R.id.etCateringDetails)
         val btnSubmit = findViewById<Button>(R.id.btnSubmitCatering)
 
         btnSubmit.setOnClickListener {
@@ -24,7 +23,6 @@ class CateringRequestActivity : AppCompatActivity() {
             val email = etEmail.text.toString().trim()
             val eventType = etEventType.text.toString().trim()
             val guests = etGuestCount.text.toString().trim()
-            val details = etEventDetails.text.toString().trim()
 
             if (name.isEmpty() || email.isEmpty() || eventType.isEmpty() || guests.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
