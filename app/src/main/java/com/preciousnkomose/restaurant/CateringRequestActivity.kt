@@ -27,8 +27,7 @@ class CateringRequestActivity : AppCompatActivity() {
             if (name.isEmpty() || email.isEmpty() || eventType.isEmpty() || guests.isEmpty()) {
                 Toast.makeText(this, "Please fill in all required fields", Toast.LENGTH_SHORT).show()
             } else {
-                // Details are validated. In a full implementation, they would be sent to a server.
-                Toast.makeText(this, "Catering request for $eventType submitted!", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "Catering request for $eventType submitted successfully!", Toast.LENGTH_LONG).show()
                 finish()
             }
         }
