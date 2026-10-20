@@ -5,8 +5,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiClient {
 
-    // 10.0.2.2 is the special IP address used by Android Emulator to connect to localhost on PC
-    private const val BASE_URL = "http://10.0.2.2/PRECIOUS-NKOMOSE-main/PRECIOUS-NKOMOSE-main/"
+    // Primary network IP address for PC running XAMPP (works on physical phone and emulator on Wi-Fi)
+    private const val BASE_URL = "http://172.25.17.228/PRECIOUS-NKOMOSE-main/PRECIOUS-NKOMOSE-main/"
 
     val apiService: ApiService by lazy {
         Retrofit.Builder()
