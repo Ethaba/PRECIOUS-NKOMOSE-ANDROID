@@ -43,7 +43,7 @@
                     android:layout_height="48dp"
                     android:contentDescription="Precious Nkomose restaurant logo"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/precious_nkomose_logo" />
+                    android:src="@drawable/logo" />
 
                 <LinearLayout
                     android:layout_width="0dp"

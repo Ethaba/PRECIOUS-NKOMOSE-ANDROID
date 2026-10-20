@@ -204,7 +204,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="1dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical">
-                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/stew" />
+                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/steak" />
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:orientation="vertical">
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Beef Stew" android:textColor="#21182B" android:textSize="16sp" android:textStyle="bold" />
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Traditional hearty stew." android:textColor="#716879" android:textSize="13sp" />
@@ -325,7 +325,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="1dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical">
-                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/seafoodboil" />
+                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/seafbkingf" />
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:orientation="vertical">
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Seafood Boil" android:textColor="#21182B" android:textSize="16sp" android:textStyle="bold" />
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Premium mixed seafood platter." android:textColor="#716879" android:textSize="13sp" />
@@ -420,7 +420,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="12dp" app:cardCornerRadius="16dp" app:cardElevation="1dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical">
-                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/homemadewine" />
+                        <ImageView android:layout_width="80dp" android:layout_height="80dp" android:scaleType="centerCrop" android:src="@drawable/selectwine" />
                         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="14dp" android:layout_weight="1" android:orientation="vertical">
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Homemade Wine" android:textColor="#21182B" android:textSize="16sp" android:textStyle="bold" />
                             <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="House white blend." android:textColor="#716879" android:textSize="13sp" />
