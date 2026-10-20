@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "113686411384",
+    "project_id": "precious-nkomose",
+    "storage_bucket": "precious-nkomose.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:113686411384:android:6cf922733a0d5d9047d58d",
+        "android_client_info": {
+          "package_name": "com.preciousnkomose.restaurant"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_vezadW9YgPU0N27ySQKAse4E-XWMj40"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
