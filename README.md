@@ -22,7 +22,7 @@ The **Precious Nkomose** Android Application provides a seamless mobile dining e
 ---
 
 ## VIDEO DEMONSTRATION
-https://1drv.ms/u/c/4fd913e1c271c48d/IQDmoXeS9diTSL7_8M5hpH3VAbI22Xw_6rq-XKdoWV9LJwI?e=AcUnu3   
+https://1drv.ms/v/c/4fd913e1c271c48d/IQDsTGJg2VzVQYVBi_CV3PMxAU_8f81wBLN127bH6hWP70E?e=nUOTTd     
 
 ---
 
