@@ -94,15 +94,14 @@ class ProfileActivity : AppCompatActivity() {
 
                 if (enteredName.isEmpty()) {
                     Toast.makeText(this, "Please enter your name.", Toast.LENGTH_SHORT).show()
-                } else if (enteredEmail.isNotEmpty() &&
-                    !android.util.Patterns.EMAIL_ADDRESS.matcher(enteredEmail).matches()
+                } else if ((enteredEmail.isNotEmpty()) &&
+                    (!android.util.Patterns.EMAIL_ADDRESS.matcher(enteredEmail).matches())
                 ) {
                     Toast.makeText(this, "Please enter a valid email address.", Toast.LENGTH_SHORT).show()
                 } else {
-                    // For now we only update the local session (full backend update can be added later)
                     val updated = user.copy(
                         name = enteredName,
-                        email = if (enteredEmail.isNotEmpty()) enteredEmail else user.email
+                        email = enteredEmail.ifEmpty { user.email },
                     )
                     session.saveUser(updated)
                     updateProfileDisplay()
@@ -115,7 +114,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun updateProfileDisplay() {
         val user = session.getUser()
         tvProfileName.text = user.name
-        tvProfileEmail.text = if (user.email.isNotEmpty() && user.email != "customer@example.com") {
+        tvProfileEmail.text = if ((user.email.isNotEmpty()) && (user.email != "customer@example.com")) {
             user.email
         } else {
             "Add your email address"

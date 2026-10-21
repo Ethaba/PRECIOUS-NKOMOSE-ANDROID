@@ -21,6 +21,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+@Suppress("ClassName")
 class reserve_table : AppCompatActivity() {
 
     private var selectedTableId = 1
@@ -86,18 +87,18 @@ class reserve_table : AppCompatActivity() {
 
                     selectedDate = SimpleDateFormat(
                         "yyyy-MM-dd",
-                        Locale.getDefault()
+                        Locale.getDefault(),
                     ).format(chosenDate.time)
 
                     findViewById<TextView>(R.id.text_selected_date).text =
                         SimpleDateFormat(
                             "EEE, dd MMM yyyy",
-                            Locale.getDefault()
+                            Locale.getDefault(),
                         ).format(chosenDate.time)
                 },
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                calendar.get(Calendar.DAY_OF_MONTH),
             )
 
             datePicker.datePicker.minDate = calendar.timeInMillis
@@ -116,7 +117,7 @@ class reserve_table : AppCompatActivity() {
                         Locale.getDefault(),
                         "%02d:%02d:00",
                         hourOfDay,
-                        minute
+                        minute,
                     )
 
                     val displayTime = Calendar.getInstance().apply {
@@ -127,12 +128,12 @@ class reserve_table : AppCompatActivity() {
                     findViewById<TextView>(R.id.text_selected_time).text =
                         SimpleDateFormat(
                             "hh:mm a",
-                            Locale.getDefault()
+                            Locale.getDefault(),
                         ).format(displayTime.time)
                 },
                 calendar.get(Calendar.HOUR_OF_DAY),
                 calendar.get(Calendar.MINUTE),
-                false
+                false,
             ).show()
         }
     }
@@ -146,7 +147,7 @@ class reserve_table : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     "At least one guest is required.",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
         }
@@ -159,7 +160,7 @@ class reserve_table : AppCompatActivity() {
                 Toast.makeText(
                     this,
                     "This selection has a maximum capacity of $selectedTableCapacity guests.",
-                    Toast.LENGTH_SHORT
+                    Toast.LENGTH_SHORT,
                 ).show()
             }
         }
@@ -188,7 +189,7 @@ class reserve_table : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Please select a reservation date.",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
             return
         }
@@ -197,16 +198,16 @@ class reserve_table : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Please select a reservation time.",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
             return
         }
 
-        if (guestCount < 1 || guestCount > selectedTableCapacity) {
+        if ((guestCount !in 1..selectedTableCapacity)) {
             Toast.makeText(
                 this,
                 "Please check the number of guests.",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
             return
         }
@@ -231,43 +232,45 @@ class reserve_table : AppCompatActivity() {
             date = selectedDate,
             time = selectedTime,
             guests = guestCount,
-            notes = specialNotes
+            notes = specialNotes,
         )
 
         ApiClient.apiService.createReservation(request)
-            .enqueue(object : Callback<ReservationResponse> {
-                override fun onResponse(
-                    call: Call<ReservationResponse>,
-                    response: Response<ReservationResponse>
-                ) {
-                    confirmBtn.isEnabled = true
-                    confirmBtn.text = "Confirm Booking"
+            .enqueue(
+                object : Callback<ReservationResponse> {
+                    override fun onResponse(
+                        call: Call<ReservationResponse>,
+                        response: Response<ReservationResponse>,
+                    ) {
+                        confirmBtn.isEnabled = true
+                        confirmBtn.text = "Confirm Booking"
 
-                    val body = response.body()
-                    if (response.isSuccessful && body?.success == true) {
+                        val body = response.body()
+                        if ((response.isSuccessful) && (body?.success == true)) {
+                            Toast.makeText(
+                                this@reserve_table,
+                                "Reservation confirmed and saved to MySQL!",
+                                Toast.LENGTH_LONG,
+                            ).show()
+
+                            startActivity(Intent(this@reserve_table, home::class.java))
+                            finish()
+                        } else {
+                            val errorMsg = body?.message ?: "Failed to book table. Please try again."
+                            Toast.makeText(this@reserve_table, errorMsg, Toast.LENGTH_LONG).show()
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ReservationResponse>, t: Throwable) {
+                        confirmBtn.isEnabled = true
+                        confirmBtn.text = "Confirm Booking"
                         Toast.makeText(
                             this@reserve_table,
-                            "Reservation confirmed and saved to MySQL!",
-                            Toast.LENGTH_LONG
+                            "Connection failed: ${t.localizedMessage}",
+                            Toast.LENGTH_LONG,
                         ).show()
-
-                        startActivity(Intent(this@reserve_table, home::class.java))
-                        finish()
-                    } else {
-                        val errorMsg = body?.message ?: "Failed to book table. Please try again."
-                        Toast.makeText(this@reserve_table, errorMsg, Toast.LENGTH_LONG).show()
                     }
-                }
-
-                override fun onFailure(call: Call<ReservationResponse>, t: Throwable) {
-                    confirmBtn.isEnabled = true
-                    confirmBtn.text = "Confirm Booking"
-                    Toast.makeText(
-                        this@reserve_table,
-                        "Connection failed: ${t.localizedMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
-            })
+                },
+            )
     }
 }

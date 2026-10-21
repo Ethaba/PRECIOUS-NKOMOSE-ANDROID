@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Please contact support or use your registered email to reset password.",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
         }
     }
@@ -86,40 +86,42 @@ class MainActivity : AppCompatActivity() {
         loginButton.text = "Logging in..."
 
         val request = LoginRequest(email = email, password = password)
-        ApiClient.apiService.login(request).enqueue(object : Callback<LoginResponse> {
-            override fun onResponse(
-                call: Call<LoginResponse>,
-                response: Response<LoginResponse>
-            ) {
-                loginButton.isEnabled = true
-                loginButton.text = "Login"
+        ApiClient.apiService.login(request).enqueue(
+            object : Callback<LoginResponse> {
+                override fun onResponse(
+                    call: Call<LoginResponse>,
+                    response: Response<LoginResponse>,
+                ) {
+                    loginButton.isEnabled = true
+                    loginButton.text = "Login"
 
-                val body = response.body()
-                if (response.isSuccessful && body?.success == true && body.user != null) {
-                    session.saveUser(body.user)
+                    val body = response.body()
+                    if ((response.isSuccessful) && (body?.success == true) && (body.user != null)) {
+                        session.saveUser(body.user)
+                        Toast.makeText(
+                            this@MainActivity,
+                            "Welcome back, ${body.user.name}!",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+
+                        startActivity(Intent(this@MainActivity, home::class.java))
+                        finish()
+                    } else {
+                        val errorMsg = body?.message ?: "Login failed. Please check your credentials."
+                        Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
+                    loginButton.isEnabled = true
+                    loginButton.text = "Login"
                     Toast.makeText(
                         this@MainActivity,
-                        "Welcome back, ${body.user.name}!",
-                        Toast.LENGTH_SHORT
+                        "Connection failed: ${t.localizedMessage}",
+                        Toast.LENGTH_LONG,
                     ).show()
-
-                    startActivity(Intent(this@MainActivity, home::class.java))
-                    finish()
-                } else {
-                    val errorMsg = body?.message ?: "Login failed. Please check your credentials."
-                    Toast.makeText(this@MainActivity, errorMsg, Toast.LENGTH_LONG).show()
                 }
-            }
-
-            override fun onFailure(call: Call<LoginResponse>, t: Throwable) {
-                loginButton.isEnabled = true
-                loginButton.text = "Login"
-                Toast.makeText(
-                    this@MainActivity,
-                    "Connection failed: ${t.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
+            },
+        )
     }
 }

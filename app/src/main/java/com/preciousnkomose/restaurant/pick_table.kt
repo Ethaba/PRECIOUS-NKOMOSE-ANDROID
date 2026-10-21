@@ -1,4 +1,3 @@
-
 package com.preciousnkomose.restaurant
 
 import android.content.Intent
@@ -10,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.google.android.material.card.MaterialCardView
 
+@Suppress("DiscouragedApi")
 class PickTableActivity : AppCompatActivity() {
 
     private var selectedTableId = 1
@@ -23,7 +23,7 @@ class PickTableActivity : AppCompatActivity() {
         3 to 6,
         4 to 6,
         5 to 8,
-        6 to 8
+        6 to 8,
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,8 +39,8 @@ class PickTableActivity : AppCompatActivity() {
                 resources.getIdentifier(
                     "card_table_$tableId",
                     "id",
-                    packageName
-                )
+                    packageName,
+                ),
             )
 
             card?.setOnClickListener {
@@ -83,32 +83,35 @@ class PickTableActivity : AppCompatActivity() {
                 resources.getIdentifier(
                     "card_table_$tableId",
                     "id",
-                    packageName
-                )
+                    packageName,
+                ),
             ) ?: continue
 
-            val selected = !entireVenueSelected && selectedTableId == tableId
+            val selected = (!entireVenueSelected) && (selectedTableId == tableId)
 
             card.strokeWidth = if (selected) 3 else 1
             card.strokeColor = ContextCompat.getColor(
                 this,
-                if (selected) R.color.table_selected else R.color.table_unselected
+                if (selected) R.color.table_selected else R.color.table_unselected,
             )
 
             card.setCardBackgroundColor(
                 ContextCompat.getColor(
                     this,
-                    if (selected) R.color.table_selected_background
-                    else android.R.color.white
-                )
+                    if (selected) {
+                        R.color.table_selected_background
+                    } else {
+                        android.R.color.white
+                    },
+                ),
             )
 
             val badge = findViewById<TextView?>(
                 resources.getIdentifier(
                     "badge_table_$tableId",
                     "id",
-                    packageName
-                )
+                    packageName,
+                ),
             )
 
             badge?.text = if (selected) "Selected" else "${tableCapacities[tableId]} seats"
@@ -118,20 +121,22 @@ class PickTableActivity : AppCompatActivity() {
         venueCard?.strokeWidth = if (entireVenueSelected) 3 else 1
         venueCard?.strokeColor = ContextCompat.getColor(
             this,
-            if (entireVenueSelected) R.color.table_selected
-            else R.color.table_unselected
+            if (entireVenueSelected) R.color.table_selected else R.color.table_unselected,
         )
 
         venueCard?.setCardBackgroundColor(
             ContextCompat.getColor(
                 this,
-                if (entireVenueSelected) R.color.table_selected_background
-                else android.R.color.white
-            )
+                if (entireVenueSelected) {
+                    R.color.table_selected_background
+                } else {
+                    android.R.color.white
+                },
+            ),
         )
 
-        findViewById<TextView?>(R.id.text_selected_table_summary)?.text =
-            "$selectedTableName • Capacity: $selectedTableCapacity"
+        val summaryText = "$selectedTableName • Capacity: $selectedTableCapacity"
+        findViewById<TextView?>(R.id.text_selected_table_summary)?.text = summaryText
     }
 
     private fun continueToReservation() {
@@ -139,7 +144,7 @@ class PickTableActivity : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Please select a table first.",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
             return
         }

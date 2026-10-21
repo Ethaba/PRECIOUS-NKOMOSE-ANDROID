@@ -16,6 +16,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+@Suppress("ClassName")
 class menu : AppCompatActivity() {
 
     private var menuItems: List<MenuItem> = emptyList()
@@ -29,14 +30,14 @@ class menu : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(mainView) { view, insets ->
             val systemBars = insets.getInsets(
-                WindowInsetsCompat.Type.systemBars()
+                WindowInsetsCompat.Type.systemBars(),
             )
 
             view.setPadding(
                 systemBars.left,
                 systemBars.top,
                 systemBars.right,
-                systemBars.bottom
+                systemBars.bottom,
             )
 
             insets
@@ -62,19 +63,11 @@ class menu : AppCompatActivity() {
         }
 
         findViewById<View?>(R.id.nav_catering)?.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Catering will be available in a future update.",
-                Toast.LENGTH_SHORT
-            ).show()
+            startActivity(Intent(this, CateringRequestActivity::class.java))
         }
 
         findViewById<View?>(R.id.nav_profile)?.setOnClickListener {
-            Toast.makeText(
-                this,
-                "Profile functionality will be added later.",
-                Toast.LENGTH_SHORT
-            ).show()
+            startActivity(Intent(this, ProfileActivity::class.java))
         }
     }
 
@@ -103,28 +96,30 @@ class menu : AppCompatActivity() {
     }
 
     private fun fetchLiveMenu() {
-        ApiClient.apiService.getMenu().enqueue(object : Callback<MenuResponse> {
-            override fun onResponse(call: Call<MenuResponse>, response: Response<MenuResponse>) {
-                val body = response.body()
-                if (response.isSuccessful && body?.success == true) {
-                    menuItems = body.data
-                    val count = menuItems.size
+        ApiClient.apiService.getMenu().enqueue(
+            object : Callback<MenuResponse> {
+                override fun onResponse(call: Call<MenuResponse>, response: Response<MenuResponse>) {
+                    val body = response.body()
+                    if ((response.isSuccessful) && (body?.success == true)) {
+                        menuItems = body.data
+                        val count = menuItems.size
+                        Toast.makeText(
+                            this@menu,
+                            "Loaded $count items from MySQL Database",
+                            Toast.LENGTH_SHORT,
+                        ).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
                     Toast.makeText(
                         this@menu,
-                        "Loaded $count items from MySQL Database",
-                        Toast.LENGTH_SHORT
+                        "Loaded default offline menu",
+                        Toast.LENGTH_SHORT,
                     ).show()
                 }
-            }
-
-            override fun onFailure(call: Call<MenuResponse>, t: Throwable) {
-                Toast.makeText(
-                    this@menu,
-                    "Loaded default offline menu",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+            },
+        )
     }
 
     private fun filterAndShowCategory(categoryName: String) {
@@ -135,7 +130,7 @@ class menu : AppCompatActivity() {
             Toast.makeText(
                 this,
                 "Showing ${filtered.size} items in $categoryName",
-                Toast.LENGTH_SHORT
+                Toast.LENGTH_SHORT,
             ).show()
         }
     }

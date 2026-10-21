@@ -84,7 +84,7 @@ class RegisterActivity : AppCompatActivity() {
 
         val digitsOnly = phone.filter { it.isDigit() }
 
-        if (digitsOnly.length !in 9..15) {
+        if ((digitsOnly.length !in 9..15)) {
             phoneInput.error = "Please enter a valid phone number"
             phoneInput.requestFocus()
             return
@@ -115,41 +115,43 @@ class RegisterActivity : AppCompatActivity() {
             name = fullName,
             email = email,
             phone = phone,
-            password = password
+            password = password,
         )
 
-        ApiClient.apiService.register(request).enqueue(object : Callback<RegisterResponse> {
-            override fun onResponse(
-                call: Call<RegisterResponse>,
-                response: Response<RegisterResponse>
-            ) {
-                registerButton.isEnabled = true
-                registerButton.text = "Register"
+        ApiClient.apiService.register(request).enqueue(
+            object : Callback<RegisterResponse> {
+                override fun onResponse(
+                    call: Call<RegisterResponse>,
+                    response: Response<RegisterResponse>,
+                ) {
+                    registerButton.isEnabled = true
+                    registerButton.text = "Register"
 
-                val body = response.body()
-                if (response.isSuccessful && body?.success == true) {
+                    val body = response.body()
+                    if ((response.isSuccessful) && (body?.success == true)) {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            body.message,
+                            Toast.LENGTH_LONG,
+                        ).show()
+
+                        finish()
+                    } else {
+                        val errorMsg = body?.message ?: "Registration failed. Please try again."
+                        Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
+                    registerButton.isEnabled = true
+                    registerButton.text = "Register"
                     Toast.makeText(
                         this@RegisterActivity,
-                        body.message,
-                        Toast.LENGTH_LONG
+                        "Connection failed: ${t.localizedMessage}",
+                        Toast.LENGTH_LONG,
                     ).show()
-
-                    finish()
-                } else {
-                    val errorMsg = body?.message ?: "Registration failed. Please try again."
-                    Toast.makeText(this@RegisterActivity, errorMsg, Toast.LENGTH_LONG).show()
                 }
-            }
-
-            override fun onFailure(call: Call<RegisterResponse>, t: Throwable) {
-                registerButton.isEnabled = true
-                registerButton.text = "Register"
-                Toast.makeText(
-                    this@RegisterActivity,
-                    "Connection failed: ${t.localizedMessage}",
-                    Toast.LENGTH_LONG
-                ).show()
-            }
-        })
+            },
+        )
     }
 }

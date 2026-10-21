@@ -1,9 +1,7 @@
-
 package com.preciousnkomose.restaurant
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -16,36 +14,31 @@ class ContactActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_contact)
 
+        val btnBack = findViewById<ImageButton>(R.id.btnBack)
         val etSubject = findViewById<EditText>(R.id.etContactSubject)
         val etMessage = findViewById<EditText>(R.id.etContactMessage)
         val btnSend = findViewById<Button>(R.id.btnSendMessage)
-        val btnBack = findViewById<ImageButton>(R.id.btnBack)
 
-        // Return to the previous screen.
-        btnBack.setOnClickListener {
+        btnBack?.setOnClickListener {
             finish()
         }
 
-        // Validate the contact form.
-        btnSend.setOnClickListener {
+        btnSend?.setOnClickListener {
             val subject = etSubject.text.toString().trim()
             val message = etMessage.text.toString().trim()
 
             if (subject.isEmpty() || message.isEmpty()) {
                 Toast.makeText(
                     this,
-                    "Please enter both a subject and a message",
-                    Toast.LENGTH_SHORT
+                    "Please fill in both subject and message before sending",
+                    Toast.LENGTH_SHORT,
                 ).show()
             } else {
                 Toast.makeText(
                     this,
-                    "Message sent successfully!",
-                    Toast.LENGTH_LONG
+                    "Thank you! Your message has been sent.",
+                    Toast.LENGTH_LONG,
                 ).show()
-
-                // Submission is simulated until backend/email
-                // integration is implemented.
                 finish()
             }
         }
@@ -54,33 +47,29 @@ class ContactActivity : AppCompatActivity() {
     }
 
     private fun setupNavigation() {
-        findViewById<View>(R.id.nav_home).setOnClickListener {
-            navigateTo(home::class.java)
+        findViewById<android.view.View?>(R.id.nav_home)?.setOnClickListener {
+            startActivity(Intent(this, home::class.java))
+            finish()
         }
 
-        findViewById<View>(R.id.nav_menu).setOnClickListener {
-            navigateTo(menu::class.java)
+        findViewById<android.view.View?>(R.id.nav_menu)?.setOnClickListener {
+            startActivity(Intent(this, menu::class.java))
+            finish()
         }
 
-        findViewById<View>(R.id.nav_reserve).setOnClickListener {
-            navigateTo(PickTableActivity::class.java)
+        findViewById<android.view.View?>(R.id.nav_reserve)?.setOnClickListener {
+            startActivity(Intent(this, PickTableActivity::class.java))
+            finish()
         }
 
-        findViewById<View>(R.id.nav_catering).setOnClickListener {
-            navigateTo(CateringRequestActivity::class.java)
+        findViewById<android.view.View?>(R.id.nav_catering)?.setOnClickListener {
+            startActivity(Intent(this, CateringRequestActivity::class.java))
+            finish()
         }
 
-        findViewById<View>(R.id.nav_profile).setOnClickListener {
-            Toast.makeText(
-                this,
-                "Profile functionality will be added later.",
-                Toast.LENGTH_SHORT
-            ).show()
+        findViewById<android.view.View?>(R.id.nav_profile)?.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+            finish()
         }
-    }
-
-    private fun navigateTo(destination: Class<*>) {
-        startActivity(Intent(this, destination))
-        finish()
     }
 }
