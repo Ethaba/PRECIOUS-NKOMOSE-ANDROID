@@ -9,7 +9,7 @@ object ApiClient {
     private const val PATH = "PRECIOUS-NKOMOSE-main/PRECIOUS-NKOMOSE-main/"
 
     // PC local Wi-Fi IP address for physical devices
-    private const val WIFI_IP = "172.25.17.228"
+    private const val WIFI_IP = "192.168.8.106"
 
     // Android Emulator host loopback IP
     private const val EMULATOR_IP = "10.0.2.2"
