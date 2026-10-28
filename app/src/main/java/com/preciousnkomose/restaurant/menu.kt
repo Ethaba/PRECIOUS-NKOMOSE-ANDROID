@@ -1,14 +1,18 @@
 package com.preciousnkomose.restaurant
 
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.button.MaterialButton
 import com.preciousnkomose.restaurant.api.ApiClient
 import com.preciousnkomose.restaurant.api.MenuItem
 import com.preciousnkomose.restaurant.api.MenuResponse
@@ -20,6 +24,19 @@ import retrofit2.Response
 class menu : AppCompatActivity() {
 
     private var menuItems: List<MenuItem> = emptyList()
+
+    private lateinit var categoryTitle: TextView
+    private lateinit var scrollMenu: ScrollView
+
+    private lateinit var btnMains: MaterialButton
+    private lateinit var btnStarters: MaterialButton
+    private lateinit var btnDesserts: MaterialButton
+    private lateinit var btnDrinks: MaterialButton
+
+    private lateinit var containerMains: View
+    private lateinit var containerStarters: View
+    private lateinit var containerDesserts: View
+    private lateinit var containerDrinks: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,27 +89,65 @@ class menu : AppCompatActivity() {
     }
 
     private fun setupMenuCategories() {
-        val categoryTitle = findViewById<TextView?>(R.id.text_category_title)
+        categoryTitle = findViewById(R.id.text_category_title)
+        scrollMenu = findViewById(R.id.scroll_menu)
 
-        findViewById<View?>(R.id.category_sa_mains)?.setOnClickListener {
-            categoryTitle?.text = "SA Mains"
-            filterAndShowCategory("SA Mains")
+        btnMains = findViewById(R.id.category_sa_mains)
+        btnStarters = findViewById(R.id.category_starters)
+        btnDesserts = findViewById(R.id.category_desserts)
+        btnDrinks = findViewById(R.id.category_drinks)
+
+        containerMains = findViewById(R.id.container_mains)
+        containerStarters = findViewById(R.id.container_starters)
+        containerDesserts = findViewById(R.id.container_desserts)
+        containerDrinks = findViewById(R.id.container_drinks)
+
+        btnMains.setOnClickListener {
+            selectCategory("SA Mains", containerMains, btnMains)
         }
 
-        findViewById<View?>(R.id.category_starters)?.setOnClickListener {
-            categoryTitle?.text = "Starters"
-            filterAndShowCategory("Starters")
+        btnStarters.setOnClickListener {
+            selectCategory("Starters", containerStarters, btnStarters)
         }
 
-        findViewById<View?>(R.id.category_desserts)?.setOnClickListener {
-            categoryTitle?.text = "Desserts"
-            filterAndShowCategory("Desserts")
+        btnDesserts.setOnClickListener {
+            selectCategory("Desserts", containerDesserts, btnDesserts)
         }
 
-        findViewById<View?>(R.id.category_drinks)?.setOnClickListener {
-            categoryTitle?.text = "Drinks"
-            filterAndShowCategory("Drinks")
+        btnDrinks.setOnClickListener {
+            selectCategory("Drinks", containerDrinks, btnDrinks)
         }
+
+        // Default category
+        selectCategory("SA Mains", containerMains, btnMains)
+    }
+
+    private fun selectCategory(title: String, activeContainer: View, activeBtn: MaterialButton) {
+        categoryTitle.text = title
+
+        // Toggle container visibility
+        containerMains.visibility = if (activeContainer == containerMains) View.VISIBLE else View.GONE
+        containerStarters.visibility = if (activeContainer == containerStarters) View.VISIBLE else View.GONE
+        containerDesserts.visibility = if (activeContainer == containerDesserts) View.VISIBLE else View.GONE
+        containerDrinks.visibility = if (activeContainer == containerDrinks) View.VISIBLE else View.GONE
+
+        // Update button styles
+        val allButtons = listOf(btnMains, btnStarters, btnDesserts, btnDrinks)
+        val purpleColor = Color.parseColor("#7044A0")
+        val lightPurpleColor = Color.parseColor("#F0E8FA")
+        val whiteColor = Color.parseColor("#FFFFFF")
+
+        for (btn in allButtons) {
+            if (btn == activeBtn) {
+                btn.backgroundTintList = ColorStateList.valueOf(purpleColor)
+                btn.setTextColor(whiteColor)
+            } else {
+                btn.backgroundTintList = ColorStateList.valueOf(lightPurpleColor)
+                btn.setTextColor(purpleColor)
+            }
+        }
+
+        scrollMenu.smoothScrollTo(0, 0)
     }
 
     private fun fetchLiveMenu() {
@@ -120,18 +175,5 @@ class menu : AppCompatActivity() {
                 }
             },
         )
-    }
-
-    private fun filterAndShowCategory(categoryName: String) {
-        val filtered = menuItems.filter {
-            it.category.contains(categoryName, ignoreCase = true)
-        }
-        if (filtered.isNotEmpty()) {
-            Toast.makeText(
-                this,
-                "Showing ${filtered.size} items in $categoryName",
-                Toast.LENGTH_SHORT,
-            ).show()
-        }
     }
 }
