@@ -21,6 +21,11 @@ The **Precious Nkomose** Android Application provides a seamless mobile dining e
 
 ---
 
+## VIDEO DEMONSTRATION
+https://1drv.ms/v/c/4fd913e1c271c48d/IQDsTGJg2VzVQYVBi_CV3PMxAU_8f81wBLN127bH6hWP70E?e=nUOTTd     
+
+---
+
 ## 🛠️ Architecture & Tech Stack
 
 * **Language & SDK**: Kotlin, Android Target SDK 36, Min SDK 24.
