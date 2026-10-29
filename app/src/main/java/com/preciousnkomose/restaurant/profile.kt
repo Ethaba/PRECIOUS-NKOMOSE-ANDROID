@@ -34,6 +34,10 @@ class ProfileActivity : AppCompatActivity() {
             showEditProfileDialog()
         }
 
+        findViewById<View>(R.id.rowMyBookings)?.setOnClickListener {
+            navigateTo(CustomerBookingsActivity::class.java)
+        }
+
         findViewById<View>(R.id.rowReservations).setOnClickListener {
             navigateTo(PickTableActivity::class.java)
         }

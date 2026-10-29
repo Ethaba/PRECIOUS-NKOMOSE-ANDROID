@@ -4,6 +4,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -18,4 +19,16 @@ interface ApiService {
 
     @POST("api/reserve.php")
     fun createReservation(@Body request: ReservationRequest): Call<ReservationResponse>
+
+    @GET("api/user_reservations.php")
+    fun getUserReservations(
+        @Query("customer_id") customerId: String,
+        @Query("email") email: String
+    ): Call<UserReservationsResponse>
+
+    @GET("api/user_catering.php")
+    fun getUserCateringRequests(
+        @Query("customer_id") customerId: String,
+        @Query("email") email: String
+    ): Call<UserCateringResponse>
 }

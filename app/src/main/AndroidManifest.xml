@@ -18,6 +18,9 @@
             android:name=".ProfileActivity"
             android:exported="true" />
         <activity
+            android:name=".CustomerBookingsActivity"
+            android:exported="true" />
+        <activity
             android:name=".reserve_table"
             android:exported="true" />
         <activity

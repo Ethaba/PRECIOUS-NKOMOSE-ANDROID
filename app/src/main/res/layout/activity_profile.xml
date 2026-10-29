@@ -136,6 +136,50 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
+                    <!-- My Bookings & Quotes -->
+                    <LinearLayout
+                        android:id="@+id/rowMyBookings"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:paddingStart="18dp"
+                        android:paddingEnd="18dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/ic_reservation"
+                            app:tint="#7044A0"
+                            android:contentDescription="Bookings icon" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:text="My Bookings &amp; Quoted Catering"
+                            android:textColor="#30243B"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="#8C8295"
+                            android:contentDescription="Open bookings page" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="18dp"
+                        android:background="#F0EAF5" />
+
                     <!-- Make a Reservation -->
                     <LinearLayout
                         android:id="@+id/rowReservations"
